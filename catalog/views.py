@@ -1,10 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views import generic
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.http import HttpResponseRedirect
+# from django.core.urlresolvers import reverse
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import permission_required
+import datetime
+
 
 # Create your views here.
 from .models import Book, Author, BookInstance, Genre
+from .forms import RenewBookModelForm
 
 @permission_required('catalog.can_mark_returned')
 def index(request):
@@ -39,6 +46,34 @@ def index(request):
         },
     )
 
+@permission_required('catalog.can_mark_returned')
+def renew_book_librarian(request, pk):
+    book_inst=get_object_or_404(BookInstance, pk=pk)
+
+    # If this is a POST request then process the Form data
+    if request.method == 'POST':
+
+        # Create a form instance and populate it with data from the request (binding):
+        # form = RenewBookForm(request.POST)
+        form = RenewBookModelForm(request.POST)
+
+        # Check if the form is valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
+            book_inst.due_back = form.cleaned_data['due_back']
+            book_inst.save()
+
+            # redirect to a new URL:
+            return HttpResponseRedirect(reverse('all-borrowed') )
+
+    # If this is a GET (or any other method) create the default form.
+    else:
+        proposed_due_back = datetime.date.today() + datetime.timedelta(weeks=3)
+        # form = RenewBookForm(initial={'due_back': proposed_due_back,})
+        form = RenewBookModelForm(initial={'due_back': proposed_due_back,})
+
+    return render(request, 'catalog/book_renew_librarian.html', {'form': form, 'bookinst':book_inst})
+
 class BookListView(generic.ListView):
     model = Book
     paginate_by = 10
@@ -46,6 +81,19 @@ class BookListView(generic.ListView):
 class BookDetailView(generic.DetailView):
     model = Book
     paginate_by = 10
+
+class AuthorCreate(CreateView):
+    model = Author
+    fields = '__all__'
+    initial={'date_of_death':'05/01/2018',}
+
+class AuthorUpdate(UpdateView):
+    model = Author
+    fields = ['first_name','last_name','date_of_birth','date_of_death']
+
+class AuthorDelete(DeleteView):
+    model = Author
+    success_url = reverse_lazy('authors')
 
 class AuthorListView(generic.ListView):
     model = Author
