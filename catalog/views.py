@@ -64,7 +64,7 @@ def renew_book_librarian(request, pk):
             book_inst.save()
 
             # redirect to a new URL:
-            return HttpResponseRedirect(reverse('all-borrowed') )
+            return HttpResponseRedirect(reverse('all-borrowed'))
 
     # If this is a GET (or any other method) create the default form.
     else:
@@ -85,7 +85,7 @@ class BookDetailView(generic.DetailView):
 class AuthorCreate(CreateView):
     model = Author
     fields = '__all__'
-    initial={'date_of_death':'05/01/2018',}
+    initial = {'date_of_death':'05/01/2018',}
 
 class AuthorUpdate(UpdateView):
     model = Author
@@ -94,6 +94,18 @@ class AuthorUpdate(UpdateView):
 class AuthorDelete(DeleteView):
     model = Author
     success_url = reverse_lazy('authors')
+
+class BookCreate(CreateView):
+    model = Book
+    fields = '__all__'
+
+class BookUpdate(UpdateView):
+    model = Book
+    fields = ['title','author','summary','isbn', 'genre', 'language']
+
+class BookDelete(DeleteView):
+    model = Book
+    success_url = reverse_lazy('books')
 
 class AuthorListView(generic.ListView):
     model = Author

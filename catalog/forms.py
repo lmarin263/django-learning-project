@@ -7,19 +7,20 @@ import datetime # for checking renewal date range.
 from django.forms import ModelForm
 from .models import BookInstance
 
+
 class RenewBookModelForm(ModelForm):
     def clean_due_back(self):
        data = self.cleaned_data['due_back']
 
-       #Check date is not in past.
+       # Check date is not in past.
        if not data:
            raise ValidationError(_('Invalid date - field is empty'))
        
-       #Check date is not in past.
+       # Check date is not in past.
        if data < datetime.date.today():
            raise ValidationError(_('Invalid date - renewal in past'))
 
-       #Check date is in range librarian allowed to change (+4 weeks)
+       # Check date is in range librarian allowed to change (+4 weeks)
        if data > datetime.date.today() + datetime.timedelta(weeks=4):
            raise ValidationError(_('Invalid date - renewal more than 4 weeks ahead'))
 
