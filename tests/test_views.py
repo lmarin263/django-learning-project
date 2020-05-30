@@ -1,15 +1,11 @@
-from django.test import TestCase
-
-# Create your tests here.
-
-from catalog.models import Author, BookInstance, Book, Genre, Language
-from django.urls import reverse
-
 import datetime
-from django.utils import timezone
-
 # Required to assign User as a borrower AND required to grant the permission needed to set a book as returned.
 from django.contrib.auth.models import User, Permission
+from django.urls import reverse
+from django.utils import timezone
+from django.test import TestCase
+
+from catalog.models import Author, BookInstance, Book, Genre, Language
 
 
 class AuthorListViewTest(TestCase):
