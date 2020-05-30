@@ -1,17 +1,23 @@
 {% extends "base_generic.html" %}
 
+{% block head-title %}
+<h1>Author List</h1>
+{% endblock %}
+
+{% block buttons %}
+{% endblock %}
+
 {% block content %}
-    <h1>Author List</h1>
-    <a href="{% url 'author-create' %}">Add author</a>
-    {% if author_list %}
-    <ul>
-      {% for author in author_list %}
-      <li>
-        <a href="{{ author.get_absolute_url }}">{{ author.first_name }} {{ author.last_name }}</a>
-      </li>
-      {% endfor %}
-    </ul>
-    {% else %}
-      <p>There are no authors in the library.</p>
-    {% endif %}
+<a class="btn" href="{% url 'author-create' %}">Add author</a>
+{% if author_list %}
+<ul>
+  {% for author in author_list %}
+  <li>
+    <a href="{{ author.get_absolute_url }}">{{ author.first_name }} {{ author.last_name }}</a>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>There are no authors in the library.</p>
+{% endif %}
 {% endblock %}

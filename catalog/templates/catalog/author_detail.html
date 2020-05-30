@@ -1,21 +1,21 @@
 {% extends "base_generic.html" %}
 
+{% block head-title %}
+<h1>{{ author.first_name }} {{ author.last_name }}</h1>
+{% endblock %}
+
 {% block content %}
-  <h1>{{ author.first_name }} {{ author.last_name }}</h1>
-
-  <p>{{ author.date_of_birth }} - {{ author.date_of_death }}</p>
-
-  <a href="{% url 'author-update' author.pk %}">Update</a> - <a href="{% url 'author-delete' author.pk %}">Delete</a>
-
-  <div style="margin-left:20px;margin-top:20px">
-    <h4>Book list</h4>
-
-    {% for book in author.book_set.all %}
-    <p><strong>Summary:</strong> {{ book.summary }}</p>
-    <p><strong>ISBN:</strong> {{ book.isbn }}</p>
-    <p><strong>Language:</strong> {{ book.language }}</p>  
-    <p><strong>Genre:</strong> {% for genre in book.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
-    <hr>
-    {% endfor %}
-  </div>
+<p>{{ author.date_of_birth }} - {{ author.date_of_death }}</p>
+<a class="btn" href="{% url 'author-update' author.pk %}">Update</a><a class="btn" href="{% url 'author-delete' author.pk %}">Delete</a>
+<div style="margin-left:20px;margin-top:20px">
+  <h4>Book list</h4>
+  {% for book in author.book_set.all %}
+  <p><strong>Summary:</strong> {{ book.summary }}</p>
+  <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+  <p><strong>Language:</strong> {{ book.language }}</p>
+  <p><strong>Genre:</strong> {% for genre in book.genre.all %} {{ genre }}{% if not forloop.last %},
+    {% endif %}{% endfor %}</p>
+  <hr>
+  {% endfor %}
+</div>
 {% endblock %}
