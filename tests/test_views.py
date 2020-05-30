@@ -15,7 +15,7 @@ class AuthorListViewTest(TestCase):
         # Create 13 authors for pagination tests
         number_of_authors = 13
         for author_num in range(number_of_authors):
-            Author.objects.create(first_name='Christian %s' % author_num, last_name = 'Surname %s' % author_num,)
+            Author.objects.create(first_name=f'Christian {author_num}', last_name = f'Surname {author_num}')
            
     def test_view_url_exists_at_desired_location(self): 
         resp = self.client.get('/catalog/authors/') 

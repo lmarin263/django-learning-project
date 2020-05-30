@@ -125,4 +125,4 @@ class Author(models.Model):
         """
         String para representar el Objeto Modelo
         """
-        return '%s, %s' % (self.last_name, self.first_name)
+        return f'{self.last_name}, {self.first_name}'
