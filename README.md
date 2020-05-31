@@ -2,4 +2,8 @@
 My personal Django learning project exercises
 
 Hi, I'm following this tutorial to learn the Django web framework: https://developer.mozilla.org/es/docs/Learn/Server-side/Django
-These files are for how I am following its lessons
+I've also added some extra lessons I'm following too into this starting project like Bootstrap and JQuery.
+-> https://codingpotions.com/desarrollo-web-boostrap
+-> https://www.tutorialrepublic.com/jquery-tutorial/
+
+These files are for how I am following these lessons
