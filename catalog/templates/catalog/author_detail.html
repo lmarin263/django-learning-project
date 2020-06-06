@@ -6,7 +6,8 @@
 
 {% block content %}
 <p>{{ author.date_of_birth }} - {{ author.date_of_death }}</p>
-<a class="btn" href="{% url 'author-update' author.pk %}">Update</a><a class="btn" href="{% url 'author-delete' author.pk %}">Delete</a>
+<a class="btn" href="{% url 'author-update' author.pk %}">Update</a><a class="btn"
+  href="{% url 'author-delete' author.pk %}">Delete</a>
 <div style="margin-left:20px;margin-top:20px">
   <h4>Book list</h4>
   {% for book in author.book_set.all %}
