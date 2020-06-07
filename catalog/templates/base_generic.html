@@ -16,47 +16,78 @@
 </head>
 
 <body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{% url 'index' %}" class="card-link">Local Library</a>
+
+    <!-- ¿Que es esto? -->
+    <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button> -->
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'books' %}" class="card-link">All books</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'authors' %}" class="card-link">All authors</a>
+        </li>
+
+        {% if user.is_authenticated %}
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'my-borrowed' %}" class="card-link">My Borrowed</a>
+        </li>
+
+        {% if user.is_staff %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Admin
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url 'all-borrowed' %}" class="card-link">All borrowed</a>
+            <!--
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+            -->
+          </div>
+        </li>
+        {% endif %}
+
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'logout'%}?next={{request.path}}" class="card-link">Logout</a>
+        </li>
+        {% else %}
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'login'%}?next={{request.path}}" class="card-link">Login</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+
   <div class="container-fluid">
     <div class="row">
       <div class="col-sm-2">
         {% block sidebar %}
         <div class="sidebar-nav">
-          <!-- Navegación general -->
           <div class="card" style="width: 18rem;">
             <div class="card-body">
-              <h5 class="card-title">Main navigation</h5>
-              <!-- 
-            <h6 class="card-subtitle mb-2 text-muted">Subtítulo</h6>
-            <p class="card-text">Contenido de la tarjeta</p>
-            -->
-              <a href="{% url 'index' %}" class="card-link">Home</a>
-              <a href="{% url 'books' %}" class="card-link">All books</a>
-              <a href="{% url 'authors' %}" class="card-link">All authors</a>
-            </div>
-          </div>
-          <!-- Navegación del usuario -->
-          <div class="card" style="width: 18rem;">
-            <div class="card-body">
-              <h5 class="card-title">User</h5>
+              <h5 class="card-title">Welcome</h5>
               {% if user.is_authenticated %}
-              <h6 class="card-subtitle mb-2 text-muted">Welcome, {{ user.get_username }}</h6>
+              <h6 class="card-subtitle mb-2 text-muted"> {{ user.get_username }} </h6>
+              <!-- 
               <a href="{% url 'my-borrowed' %}" class="card-link">My Borrowed</a>
               <a href="{% url 'logout'%}?next={{request.path}}" class="card-link">Logout</a>
+              -->
               {% else %}
-              <h6 class="card-subtitle mb-2 text-muted">Welcome, guest</h6>
+              <h6 class="card-subtitle mb-2 text-muted">guest</h6>
               <a href="{% url 'login'%}?next={{request.path}}" class="card-link">Login</a>
               {% endif %}
             </div>
           </div>
-          <!-- Navegación del staff -->
-          {% if user.is_authenticated and user.is_staff %}
-          <div class="card" style="width: 18rem;">
-            <div class="card-body">
-              <h5 class="card-title">Staff</h5>
-              <a href="{% url 'all-borrowed' %}" class="card-link">All borrowed</a>
-            </div>
-          </div>
-          {% endif %}
         </div>
         {% endblock %}
       </div>

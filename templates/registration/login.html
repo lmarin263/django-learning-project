@@ -3,37 +3,49 @@
 {% block content %}
 
 {% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
+<div class="alert alert-danger" role="alert">
+  Your username and password didn't match. Please try again.
+</div>
+<!-- <p>Your username and password didn't match. Please try again.</p> -->
 {% endif %}
 
 {% if next %}
 {% if user.is_authenticated %}
-<p>Your account doesn't have access to this page. To proceed,
-  please login with an account that has access.</p>
+<!-- <p>Your account doesn't have access to this page. To proceed,
+  please login with an account that has access.</p> -->
+<div class="alert alert-warning" role="alert">
+  Your account doesn't have access to this page. To proceed,
+  please login with an account that has access.
+</div>
 {% else %}
-<p>Please login to see this page.</p>
+<div class="alert alert-info" role="alert">
+  Please login to see this page.
+</div>
+<!-- <p>Please login to see this page.</p> -->
 {% endif %}
 {% endif %}
+
+{% load crispy_forms_tags %}
 
 <form method="post" action="{% url 'login' %}">
   {% csrf_token %}
-
-  <div>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
+  <div class="form-group">
+    {{ form.username|as_crispy_field }}
   </div>
-  <div>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
+
+  <div class="form-group">
+    {{ form.password|as_crispy_field }}
   </div>
 
   <div>
-    <input type="submit" value="login" />
+    <!-- <input type="submit" value="Login" /> -->
+    <button type="submit" class="btn btn-primary">Login</button>
     <input type="hidden" name="next" value="{{ next }}" />
   </div>
 </form>
 
 {# Assumes you setup the password_reset view in your URLconf #}
+<hr>
 <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
 
 {% endblock %}
